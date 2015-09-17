@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
-        separator: ';\n',
+        separator: '\n',
       },
       dist: {
         src: ['public/client/*.js'],
@@ -28,23 +28,30 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      my_target: {
+        files: {
+          'public/dist/ugly-built.min.js': ['public/dist/built.js']       
+        }
+      }
     },
 
     jshint: {
-      files: [
-        // Add filespec list here
-      ],
+      beforeconcat: ['public/client/*.js', 'app/**/*.js', 'lib/*.js', '*.js'],
+      afterconcat: ['public/dist/built.js'],
       options: {
-        force: 'true',
         jshintrc: '.jshintrc',
         ignores: [
-          'public/lib/**/*.js',
-          'public/dist/**/*.js'
+          'public/lib/**/*.js'
         ]
       }
     },
 
     cssmin: {
+      target: {
+        files: {
+          'public/dist/ugly-style.min.css': ['public/style.css']      
+        }
+      }
     },
 
     watch: {
@@ -101,19 +108,23 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'jshint:beforeconcat',
+    'concat',
+    'uglify',
+    'cssmin',
+    'jshint:afterconcat'
   ]);
 
   grunt.registerTask('upload', function(n) {
-    if(grunt.option('prod')) {
+    if(grunt.option('prod')) {      
+      // grunt upload --prod
       // add your production server task here
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
+  grunt.registerTask('deploy', []);
 
 
 };
