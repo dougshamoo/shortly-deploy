@@ -124,11 +124,11 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', ['build']);
+  grunt.registerTask('deploy', ['build']); // mocha test then build
 
 
   grunt.registerTask('heroku:development', 'concat');
 
-  grunt.registerTask('heroku:production', ['build']);
+  grunt.registerTask('heroku:production', ['deploy']);
 
 };

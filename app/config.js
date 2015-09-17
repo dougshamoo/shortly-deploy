@@ -1,4 +1,11 @@
-var Bookshelf = require('bookshelf');
+// var Bookshelf = require('bookshelf');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/test');
+
+var db = mongoose.connection;
+db.on('error', ???);
+db.once('open', function() {});
+
 var path = require('path');
 
 var db = Bookshelf.initialize({
