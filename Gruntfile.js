@@ -124,7 +124,11 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', []);
+  grunt.registerTask('deploy', ['build']);
 
+
+  grunt.registerTask('heroku:development', 'concat');
+
+  grunt.registerTask('heroku:production', ['build']);
 
 };
